@@ -12,6 +12,8 @@ public class MainManager : MonoBehaviour
 
     public Text ScoreText;
     public GameObject GameOverText;
+    public Text BestScoreText;
+    public GameObject BestScoreContainer;
     
     private bool m_Started = false;
     private int m_Points;
@@ -70,7 +72,14 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
+        SaveSystem.Instance.LoadHighScore();
+        if (SaveSystem.Instance.HighScore < m_Points)
+        {
+            SaveSystem.Instance.HighScore = m_Points;
+        }
         m_GameOver = true;
         GameOverText.SetActive(true);
+        BestScoreText.text = "Best Score: " + SaveSystem.Instance.UserName + " :" + SaveSystem.Instance.HighScore;
+        BestScoreContainer.SetActive(true);
     }
 }
